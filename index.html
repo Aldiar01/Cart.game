@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Карточная игра</title>
+  <style>
+    /* Общие стили */
+    body {
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      background: linear-gradient(135deg, #141e30, #243b55);
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .game-container {
+      max-width: 700px;
+      padding: 20px;
+      background: #1f2937;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #ff7e5f, #feb47b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .cards {
+      display: flex;
+      justify-content: space-around;
+      margin: 30px 0;
+    }
+
+    .card {
+      width: 120px;
+      height: 180px;
+      background: linear-gradient(145deg, #374151, #4b5563);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3em;
+      color: #e2e8f0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      transform: translateY(-2px);
+    }
+
+    p {
+      margin-top: 20px;
+      font-size: 1.5em;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>✨ Карточная игра ✨</h1>
+    <div class="cards">
+      <div class="card" id="player-card">❓</div>
+      <div class="card" id="bot-card">❓</div>
+    </div>
+    <button id="draw-card">🎴 Вытянуть карту</button>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    // Колода карт
+    const suits = ['♠', '♥', '♦', '♣'];
+    const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+
+    // Получение элементов
+    const playerCard = document.getElementById('player-card');
+    const botCard = document.getElementById('bot-card');
+    const result = document.getElementById('result');
+    const drawButton = document.getElementById('draw-card');
+
+    // Генерация случайной карты
+    function drawRandomCard() {
+      const suit = suits[Math.floor(Math.random() * suits.length)];
+      const rank = ranks[Math.floor(Math.random() * ranks.length)];
+      return `${rank}${suit}`;
+    }
+
+    // Определение победителя
+    function determineWinner(player, bot) {
+      const playerValue = ranks.indexOf(player.slice(0, -1));
+      const botValue = ranks.indexOf(bot.slice(0, -1));
+
+      if (playerValue > botValue) {
+        return '🎉 Вы победили!';
+      } else if (playerValue < botValue) {
+        return '😢 Бот победил!';
+      } else {
+        return '🤝 Ничья!';
+      }
+    }
+
+    // Обработчик события на кнопку
+    drawButton.addEventListener('click', () => {
+      const player = drawRandomCard();
+      const bot = drawRandomCard();
+
+      playerCard.textContent = player;
+      botCard.textContent = bot;
+
+      result.textContent = determineWinner(player, bot);
+    });
+  </script>
+</body>
+</html>
